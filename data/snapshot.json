@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-27T02:56:13.624201+00:00",
+  "version": "0.2.2",
+  "fixture": false,
+  "publication": {
+    "market_data": false,
+    "personal_watchlist": false,
+    "notice": "公开行情数据尚未启用。启用前请确认数据供应商的公开展示/再分发许可。",
+    "personal_notice": "个人自选股票、ETF 和基金未公开发布。"
+  },
+  "counts": {},
+  "items": []
+}

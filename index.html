@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f6f9">
+  <meta name="description" content="全球主要市场、指数与关注标的观察面板">
+  <title>Market Watch · 全球市场观察</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/app.css">
+  <script defer src="./assets/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Market Watch 首页">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span><strong>Market Watch</strong><small>GLOBAL MARKET OBSERVER</small></span>
+      </a>
+      <nav class="main-nav" aria-label="主导航">
+        <button class="nav-link active" data-view="overview">市场总览</button>
+        <button class="nav-link" data-view="stocks">自选股票</button>
+        <button class="nav-link" data-view="etfs">ETF / 基金</button>
+        <button class="nav-link" data-view="reports">日报与复盘</button>
+      </nav>
+      <div class="top-actions">
+        <span class="update-indicator"><i></i><span id="update-label">等待数据</span></span>
+        <button class="icon-button" id="color-mode" title="切换涨跌颜色" aria-label="切换涨跌颜色">红涨绿跌</button>
+        <button class="icon-button refresh-button" id="refresh-data" title="重新加载数据" aria-label="重新加载数据">↻</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-heading">
+        <div>
+          <div class="eyebrow">PERSONAL MARKET INTELLIGENCE</div>
+          <h1>全球市场观察</h1>
+          <p class="heading-subtitle">用一张面板跟踪市场、指数与关注资产的变化。</p>
+        </div>
+        <div class="report-date">
+          <span class="muted-label">最近一次数据更新</span>
+          <strong id="generated-at">尚无数据</strong>
+          <span class="tiny-note" id="coverage-note">数据日期按各市场分别计算</span>
+        </div>
+      </section>
+
+      <section class="notice hidden" id="publication-notice" aria-live="polite">
+        <span class="notice-icon">i</span><div><strong>公开数据尚未启用</strong><p id="publication-notice-text">当前站点仅发布静态界面。启用行情数据前，请确认数据供应商允许公开展示。</p></div>
+      </section>
+
+      <section class="summary-grid" id="summary-grid" aria-label="市场摘要">
+        <article class="summary-card"><span class="summary-label">已发布标的</span><strong id="summary-total">—</strong><small id="summary-total-note">等待行情数据</small></article>
+        <article class="summary-card"><span class="summary-label">最新数据</span><strong id="summary-current">—</strong><small>按各市场预期交易日判断</small></article>
+        <article class="summary-card"><span class="summary-label">需要关注</span><strong id="summary-attention">—</strong><small>延迟、缓存或缺失数据</small></article>
+        <article class="summary-card summary-card-accent"><span class="summary-label">观察范围</span><strong id="summary-markets">全球</strong><small>美股 · 港股 · A股</small></article>
+      </section>
+
+      <section class="view-panel active" id="view-overview">
+        <div class="section-heading">
+          <div><div class="eyebrow">MARKET PULSE</div><h2>主要市场</h2><p>各市场按各自最近一个有效交易日展示，不强行对齐日期。</p></div>
+          <span class="section-count" id="index-count">0 个指数</span>
+        </div>
+        <div class="market-groups" id="market-groups">
+          <div class="empty-state">正在读取市场数据…</div>
+        </div>
+        <div class="section-heading compact-heading">
+          <div><div class="eyebrow">WATCHLIST SNAPSHOT</div><h2>关注资产速览</h2><p>仅展示已获准发布的关注标的。</p></div>
+          <button class="text-button" data-go="stocks">查看自选股票 →</button>
+        </div>
+        <div class="mini-watch-grid" id="overview-watchlist"><div class="empty-state">暂无已公开的个人自选列表。</div></div>
+      </section>
+
+      <section class="view-panel" id="view-stocks">
+        <div class="section-heading">
+          <div><div class="eyebrow">EQUITY WATCHLIST</div><h2>自选股票</h2><p>关注股票的价格表现、区间收益和历史走势。</p></div>
+          <span class="section-count" id="stock-count">0 只股票</span>
+        </div>
+        <div class="toolbar"><input id="stock-search" type="search" placeholder="搜索名称或代码" aria-label="搜索自选股票"><select id="stock-market" aria-label="按市场筛选"><option value="all">全部市场</option><option value="CN">A股</option><option value="HK">港股</option><option value="US">美股</option></select></div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>标的</th><th>最新价</th><th>日涨跌</th><th>近5日</th><th>近20日</th><th>数据日期</th><th>状态</th></tr></thead><tbody id="stock-rows"></tbody></table></div>
+        <div class="private-placeholder hidden" id="stock-private"><div class="lock-mark">⌑</div><strong>个人自选列表尚未公开</strong><p>出于隐私保护，默认不会把你的自选股票清单发布到公开网页。确认愿意公开后，可在仓库 Actions Variables 中启用 <code>PUBLISH_PERSONAL_WATCHLIST=true</code>。</p></div>
+      </section>
+
+      <section class="view-panel" id="view-etfs">
+        <div class="section-heading"><div><div class="eyebrow">FUNDS & ETF</div><h2>ETF / 基金</h2><p>场内交易价格与场外基金净值是不同口径，后续将分别展示。</p></div><span class="section-count" id="etf-count">0 个标的</span></div>
+        <div class="table-wrap"><table class="data-table"><thead><tr><th>标的</th><th>最新价 / 净值</th><th>日涨跌</th><th>近5日</th><th>近20日</th><th>数据日期</th><th>状态</th></tr></thead><tbody id="etf-rows"></tbody></table></div>
+        <div class="private-placeholder hidden" id="etf-private"><div class="lock-mark">⌑</div><strong>个人 ETF / 基金观察池尚未公开</strong><p>默认不公开你选择跟踪的 ETF 和基金。确认后可启用 <code>PUBLISH_PERSONAL_WATCHLIST=true</code>。</p></div>
+        <div class="info-strip"><strong>基金数据说明</strong><span>当前基线包含7只场内 ETF；场外基金与 QDII 净值尚未接入。后续会明确区分交易价格、正式净值、估算净值及净值日期。</span></div>
+      </section>
+
+      <section class="view-panel" id="view-reports">
+        <div class="section-heading"><div><div class="eyebrow">DAILY BRIEFING</div><h2>日报与复盘</h2><p>基于已发布数据生成的客观摘要，不构成投资建议。</p></div><span class="section-count" id="report-date">尚无报告</span></div>
+        <div class="report-layout">
+          <article class="report-main"><div class="report-kicker">MARKET SUMMARY</div><h3 id="report-title">等待首份市场快照</h3><p id="report-intro">当行情数据获准发布并完成采集后，这里会自动生成市场观察摘要。</p><div id="report-highlights" class="report-highlights"></div></article>
+          <aside class="report-side"><h3>数据质量</h3><div id="quality-list" class="quality-list"><p class="muted">暂无数据质量记录。</p></div><p class="disclaimer">报告仅用于信息整理。行情存在延迟、缺失或供应商口径差异时，以页面标注为准。</p></aside>
+        </div>
+      </section>
+
+      <section class="method-note"><span class="method-dot"></span><div><strong>数据口径</strong><p>价格收益根据可用历史收盘价计算，不等同于含分红总回报。各市场交易时间、节假日和数据发布时间不同；缓存或延迟数据不会被标记为最新行情。</p></div></section>
+    </main>
+    <footer><span>MARKET WATCH <b>V0.3.0</b></span><span>个人市场观察 · 非交易终端 · 不构成投资建议</span><a href="https://github.com" rel="noopener">Powered by GitHub Pages</a></footer>
+  </div>
+
+  <dialog class="detail-dialog" id="detail-dialog">
+    <div class="dialog-head"><div><span class="eyebrow" id="detail-market">MARKET</span><h2 id="detail-name">标的详情</h2><p id="detail-meta">数据日期</p></div><button class="icon-button" id="close-detail" aria-label="关闭详情">×</button></div>
+    <div class="detail-price"><strong id="detail-close">—</strong><span id="detail-change">—</span></div>
+    <div class="range-switch" id="range-switch"><button class="active" data-range="1m">1月</button><button data-range="3m">3月</button><button data-range="6m">半年</button><button data-range="1y">1年</button></div>
+    <div class="chart-box" id="detail-chart"><div class="empty-state">暂无历史走势</div></div>
+    <div class="detail-metrics" id="detail-metrics"></div>
+    <p class="dialog-footnote">历史价格为来源数据的收盘价；不代表含分红收益。数据可能延迟或修订。</p>
+  </dialog>
+  <script>/* GitHub Pages project-site paths are intentionally relative. */</script>
+</body>
+</html>
