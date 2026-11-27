@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "site_version": "0.3.0",
-  "built_at": "2026-11-27T02:56:40+00:00",
+  "built_at": "2026-11-27T03:03:56+00:00",
   "source_version": "0.2.2",
-  "published_items": 0,
-  "published_histories": 0,
+  "published_items": 32,
+  "published_histories": 32,
   "publication": {
-    "market_data": false,
-    "personal_watchlist": false,
-    "notice": "公开行情数据尚未启用。启用前请确认数据供应商的公开展示/再分发许可。",
-    "personal_notice": "个人自选股票、ETF 和基金未公开发布。"
+    "market_data": true,
+    "personal_watchlist": true,
+    "notice": null,
+    "personal_notice": null
   }
 }
